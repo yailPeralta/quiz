@@ -19,7 +19,9 @@ body {
 section > div{
   padding: 20px;
 }
-
+section, nav{
+  min-height: 450px;
+}
 header, nav, section, footer{
   background: #eee;
   text-align: center;
