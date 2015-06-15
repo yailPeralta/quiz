@@ -4,14 +4,16 @@
 var path = require('path');
 var Sequelize = require('sequelize');
 
-var url = process.env.DATABASE_URL.match(/(.*):\/\/(.*?):(.*)@(.*):(.*)\/(.*)/);
+var database_url = process.env.DATABASE_URL || 'sqlite://:@:/';
+
+var url = database_url.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
 var dbName  = (url[6] || null);
 var user    = (url[2] || null);
 var pwd     = (url[3] || null);
 var dialect = (url[1] || null);
 var port    = (url[5] || null);
 var host    = (url[4] || null);
-var storage = process.env.DATABASE_STORAGE;
+var storage = process.env.DATABASE_STORAGE || 'quiz.sqlite';
 
 var sequelize =  new Sequelize(dbName, user, pwd, {
     dialect: dialect,
