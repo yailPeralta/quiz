@@ -3,21 +3,33 @@
  */
 var models = require('../models/models.js');
 
-exports.question = function (req, res) {
+exports.index = function (req, res) {
 
     models.Quiz.findAll().then(function (quiz) {
-        res.render('quizes/question', { pregunta: quiz[0].pregunta })
+        res.render('quizes/index');
+    });
+};
+
+exports.show = function (req, res) {
+    var id = req.query.quizId;
+
+    models.Quiz.find( id ).then(function (quiz) {
+        res.render('quizes/show', { quiz: quiz })
     });
 };
 
 exports.answer = function (req, res) {
     var respuesta = req.query.respuesta;
 
-    models.Quiz.findAll().then(function (quiz) {
-        if(respuesta === quiz[0].respuesta){
-            res.render('quizes/answer', { respuesta: 'Correcto'});
+    var id = req.query.quizId;
+
+    models.Quiz.find( id ).then(function (quiz) {
+
+        if(respuesta === quiz.respuesta){
+            res.render('quizes/answer', { quiz: quiz, respuesta: 'Correcto'});
         }else{
-            res.render('quizes/answer', { respuesta: 'Incorrecto'});
+            res.render('quizes/answer', { quiz: quiz, respuesta: 'Incorrecto'});
         }
+
     });
 };
