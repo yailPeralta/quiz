@@ -28,7 +28,7 @@ node_modules
 .idea
 .env
 logs.txt
-!
+
 
 # Debug log from npm
 npm-debug.log
