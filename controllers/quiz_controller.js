@@ -25,9 +25,27 @@ exports.load = function(req, res, next, quizId){
 
 exports.index = function (req, res) {
 
-    models.Quiz.findAll().then(function (quizes) {
-        res.render('quizes/index', { quizes: quizes });
-    });
+    if(typeof req.query.search !== "undefined"){
+
+        var search = req.query.search
+            .trim()
+            .replace("\s", "%");
+
+        models.Quiz.findAll({
+
+            where: ["pregunta LIKE ?", "%" + search + "%"]
+
+        }).then(function (quizes) {
+            if(quizes){
+                res.render('quizes/index', { quizes: quizes });
+            }
+        });
+
+    }else{
+        models.Quiz.findAll().then(function (quizes) {
+            res.render('quizes/index', { quizes: quizes });
+        });
+    }
 };
 
 exports.show = function (req, res) {
