@@ -29,11 +29,12 @@ exports.index = function (req, res) {
 
         var search = req.query.search
             .trim()
-            .replace("\s", "%");
+            .replace("\s", "%")
+            .toLowerCase();
 
         models.Quiz.findAll({
 
-            where: ["pregunta LIKE ?", "%" + search + "%"]
+            where: ["lower(pregunta) LIKE ?", "%" + search + "%"]
 
         }).then(function (quizes) {
             if(quizes){
