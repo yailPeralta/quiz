@@ -3,6 +3,15 @@
  */
 var models = require('../models/models.js');
 
+var temas = {
+    otro: "Otro",
+    humanidades: "Humanidades",
+    ocio: "Ocio",
+    ciencia: "Ciencia",
+    tecnologia: "Tecnologia",
+    geografia: "Geografia"
+};
+
 exports.load = function(req, res, next, quizId){
     models.Quiz.findOne({
         where: {
@@ -69,9 +78,10 @@ exports.answer = function (req, res) {
 exports.new = function (req, res) {
     var quiz = models.Quiz.build({
         pregunta: "Pregunta",
-        respuesta: "Respuesta"
+        respuesta: "Respuesta",
+        tema: "Seleccione un tema"
     });
-    res.render('quizes/new', { quiz: quiz, errors: [] });
+    res.render('quizes/new', { quiz: quiz, errors: [], temas: temas });
 };
 
 exports.create = function (req, res) {
@@ -82,7 +92,7 @@ exports.create = function (req, res) {
             if(err){
                 res.render("quizes/new", {quiz: quiz, errors: err.errors})
             }else{
-                quiz.save({fields: ['pregunta', 'respuesta']})
+                quiz.save({fields: ['pregunta', 'respuesta', 'tema']})
                     .then(function () {
                         res.redirect('/quizes')
                     })
@@ -93,20 +103,20 @@ exports.create = function (req, res) {
 module.exports.edit = function (req, res) {
     var quiz = req.quiz;
 
-    res.render('quizes/edit', {quiz : quiz, errors: []});
+    res.render('quizes/edit', {quiz : quiz, errors: [], temas: temas});
 };
 
 module.exports.update = function (req, res) {
     req.quiz.pregunta = req.body.quiz.pregunta;
     req.quiz.respuesta = req.body.quiz.respuesta;
-
+    req.quiz.tema = req.body.quiz.tema;
 
     req.quiz.validate()
         .then(function (err) {
             if(err){
                 res.render("quizes/edit", {quiz: quiz, errors: err.errors})
             }else{
-                req.quiz.save({fields: ['pregunta', 'respuesta']})
+                req.quiz.save({fields: ['pregunta', 'respuesta', 'tema']})
                     .then(function () {
                         res.redirect('/quizes')
                     })
