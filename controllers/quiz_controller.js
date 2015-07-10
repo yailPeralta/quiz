@@ -17,7 +17,8 @@ exports.load = function(req, res, next, quizId){
         where: {
             // use param en vez de query, por que no me funcionaba
             id: req.param("quizId")
-        }
+        },
+        include: [{ model: models.Comment}]
     }).then(
         function (quiz) {
             if(quiz){

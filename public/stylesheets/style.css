@@ -37,3 +37,7 @@ a {
 #ErrorMsgs{
   color: red;
 }
+
+.right {
+  float: right;
+}

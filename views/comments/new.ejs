@@ -1,0 +1,6 @@
+<form method="post" action="/quizes/<%= quizId %>/comments">
+    <label for="comment">Añadir comentario:</label>
+    <input type="hidden" name="comment[quizId]" value="<%= quizId %>"/>
+    <input type="text" id="comment" name="comment[texto]" value=""/>
+    <button type="submit">Enviar</button>
+</form>
